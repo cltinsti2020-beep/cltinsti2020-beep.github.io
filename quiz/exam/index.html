@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>แบบทดสอบ</title>
+<link rel="icon" href="data:,">
+<style>
+  html,body{margin:0;padding:0;height:100%;background:#eef4fb;overflow:hidden}
+  iframe{display:block;width:100vw;height:100vh;border:0}
+  .fb{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+      font-family:system-ui,"Sarabun",sans-serif;color:#44586d;font-size:15px;z-index:-1}
+</style>
+</head>
+<body>
+<div class="fb">กำลังเปิดระบบ…</div>
+
+<!-- ===== เปลี่ยนเฉพาะ data-src ด้านล่างนี้ ถ้า deploy เว็บแอปใหม่ ===== -->
+<iframe id="app" data-src="https://script.google.com/macros/s/AKfycbyMRjbETvmFqVfMxySoXh-V1zCdG8J3E6qgGTZujiV_WA6w2XuXE3Im6aW1xeVFq0vIXg/exec?page=exam"
+        title="แบบทดสอบ" allow="clipboard-write; fullscreen"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+<script>
+  /* ส่งค่าที่ต่อท้ายลิงก์ เช่น ?examId=xxxx เข้าไปในแอปด้วย */
+  (function(){
+    var f = document.getElementById('app'), u = f.getAttribute('data-src');
+    var q = location.search.slice(1);
+    if (q) u += (u.indexOf('?') >= 0 ? '&' : '?') + q;
+    f.src = u;
+  })();
+</script>
+</body>
+</html>
