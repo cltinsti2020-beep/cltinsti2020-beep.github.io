@@ -21,10 +21,23 @@
         referrerpolicy="no-referrer-when-downgrade"></iframe>
 
 <script>
-  /* ส่งค่าที่ต่อท้ายลิงก์ เช่น ?fy=2570 เข้าไปในแอปด้วย */
+  /* ส่งค่าที่ต่อท้ายลิงก์ เช่น ?fy=2570 เข้าไปในแอปด้วย
+     และเก็บบัตรผ่าน (รหัสผ่านที่ใส่แล้ว) ไว้ที่หน้านี้ ซึ่งอยู่ที่เดียวกันทุกครั้ง
+     ใส่รหัสครั้งเดียว ไปทุกระบบและกลับมาหน้าแผนได้โดยไม่ถามซ้ำ */
   (function(){
+    var KEY = 'cl_tk';
     var f = document.getElementById('app'), u = f.getAttribute('data-src');
     var q = location.search.slice(1);
+    var saved = ''; try{ saved = localStorage.getItem(KEY) || ''; }catch(e){}
+    if (saved && !/(^|&)tk=/.test(q)) q += (q ? '&' : '') + 'tk=' + encodeURIComponent(saved);
+    window.addEventListener('message', function(e){
+      var h = ''; try{ h = new URL(e.origin).hostname; }catch(x){}
+      if (!/(^|\.)(googleusercontent|google)\.com$/.test(h)) return;
+      var d = e.data;
+      if (!d || typeof d !== 'object' || !('cltk' in d)) return;
+      var v = String(d.cltk || '').replace(/[^A-Za-z0-9]/g, '');
+      try{ v ? localStorage.setItem(KEY, v) : localStorage.removeItem(KEY); }catch(x){}
+    });
     if (q) u += (u.indexOf('?') >= 0 ? '&' : '?') + q;
     f.src = u;
   })();
