@@ -29,6 +29,13 @@
     var f = document.getElementById('app'), u = f.getAttribute('data-src');
     var q = location.search.slice(1);
     var saved = ''; try{ saved = localStorage.getItem(KEY) || ''; }catch(e){}
+    /* เปิดลิงก์ manage ตรง ๆ โดยยังไม่เคยใส่รหัส → พาไปหน้าแรก (ดูอย่างเดียว) ก่อน
+       จะถามรหัสก็ต่อเมื่อกดปุ่ม "จัดการแผน" (ลิงก์ของปุ่มมี go=1) */
+    if (!saved && !/(^|&)(go|tk)=/.test(q)){
+      var fy = (q.match(/(?:^|&)fy=(\d+)/) || [])[1];
+      location.replace(location.pathname.replace(/manage\/?(index\.html)?$/, '') + (fy ? '?fy=' + fy : ''));
+      return;
+    }
     if (saved && !/(^|&)tk=/.test(q)) q += (q ? '&' : '') + 'tk=' + encodeURIComponent(saved);
     window.addEventListener('message', function(e){
       var h = ''; try{ h = new URL(e.origin).hostname; }catch(x){}
